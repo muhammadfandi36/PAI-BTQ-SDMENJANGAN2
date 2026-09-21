@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Latihan MAPSI XXVII — PAI &amp; BTQ SD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d2b24; --emerald:#12705a; --emerald-2:#0d5643; --soft:#e4f0ea;
+  --saffron:#d99425; --saffron-soft:#fdf1dc; --wrong:#a93446; --wrong-soft:#fae7ea;
+  --paper:#eef3f1; --card:#ffffff; --line:#cfdcd6; --muted:#5c7169;
+  --radius:14px;
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+h1,h2,h3{line-height:1.2;margin:0}
+button{font:inherit;cursor:pointer;border:none;border-radius:10px}
+.btn{background:var(--emerald);color:#fff;padding:11px 18px;font-weight:700}
+.btn:hover{background:var(--emerald-2)}
+.btn.ghost{background:transparent;color:var(--emerald);border:1.5px solid var(--emerald)}
+.btn.ghost:hover{background:var(--soft)}
+.btn.warn{background:var(--saffron);color:#3b2a06}
+.btn.small{padding:7px 12px;font-size:14px}
+.btn:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--emerald);color:#fff;border-radius:var(--radius);padding:22px 24px;
+  position:relative;overflow:hidden}
+.masthead .kufic{position:absolute;inset:0;opacity:.16;pointer-events:none}
+.masthead h1{font-size:clamp(22px,4.4vw,31px);font-weight:800;letter-spacing:-.4px;position:relative}
+.masthead p{margin:6px 0 0;opacity:.9;font-size:14.5px;position:relative;max-width:56ch}
+
+.grid-pakets{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:16px}
+.paket-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-align:left}
+.paket-card h3{font-size:17px}
+.paket-card .meta{color:var(--muted);font-size:13.5px;margin:4px 0 12px}
+.paket-card .done{color:var(--emerald);font-weight:700;font-size:13px}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:16px}
+.section-title{font-size:15px;font-weight:700;color:var(--muted);margin-bottom:10px}
+
+/* ---------- exam ---------- */
+.exambar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);
+  padding:10px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.pill{background:var(--soft);color:var(--emerald-2);padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px}
+.pill.time{background:var(--saffron-soft);color:#6b4a06}
+.progress{flex:1;min-width:120px;height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--emerald);width:0;transition:width .25s}
+
+.qhead{display:flex;gap:10px;align-items:baseline;margin-bottom:10px}
+.qnum{font-weight:800;font-size:26px;color:var(--emerald);min-width:44px}
+.qscope{font-size:12.5px;color:var(--muted);border:1px solid var(--line);padding:2px 8px;border-radius:999px}
+.qtext{font-size:18px;font-weight:500;margin-bottom:14px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);
+  border-radius:12px;padding:12px 14px;margin-bottom:9px;display:flex;gap:12px;align-items:flex-start}
+.opt:hover{border-color:var(--emerald)}
+.opt .k{font-weight:800;color:var(--emerald);min-width:20px}
+.opt.sel{border-color:var(--emerald);background:var(--soft)}
+.opt.ok{border-color:var(--emerald);background:var(--soft)}
+.opt.no{border-color:var(--wrong);background:var(--wrong-soft)}
+.match-row{display:flex;gap:10px;align-items:center;margin-bottom:9px;flex-wrap:wrap}
+.match-row .l{flex:1;min-width:180px;background:var(--soft);padding:10px 12px;border-radius:10px}
+.match-row select{padding:10px;border-radius:10px;border:1.5px solid var(--line);min-width:180px;flex:1;background:#fff}
+.hintbox{background:var(--saffron-soft);border-left:4px solid var(--saffron);padding:11px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
+.navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px;margin-top:8px}
+.navgrid button{aspect-ratio:1;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;color:var(--muted);border-radius:9px}
+.navgrid button.filled{background:var(--emerald);border-color:var(--emerald);color:#fff}
+.navgrid button.now{outline:3px solid var(--saffron);outline-offset:1px}
+.navgrid button.hinted::after{content:"";position:absolute}
+.navwrap{position:relative}
+.rowbtn{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+/* ---------- result ---------- */
+.score{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.score .big{font-size:56px;font-weight:800;color:var(--emerald);line-height:1}
+.tally{display:flex;gap:10px;flex-wrap:wrap;font-size:14px}
+.tally span{background:var(--soft);padding:6px 12px;border-radius:999px;font-weight:600}
+.rev{border-top:1px solid var(--line);padding:16px 0}
+.rev:first-of-type{border-top:none}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.badge.hint{background:var(--saffron-soft);color:#6b4a06;border:1px solid var(--saffron)}
+.badge.benar{background:var(--soft);color:var(--emerald-2)}
+.badge.salah{background:var(--wrong-soft);color:var(--wrong)}
+.expl{background:var(--paper);border-radius:10px;padding:11px 14px;font-size:15px;margin-top:10px}
+.expl b{color:var(--emerald-2)}
+
+/* ---------- admin ---------- */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-size:13px}
+input[type=text],input[type=password],textarea,select.adm{width:100%;padding:9px 11px;border:1.5px solid var(--line);
+  border-radius:10px;font:inherit;background:#fff}
+textarea{min-height:64px;resize:vertical}
+.fld{margin-bottom:10px}
+.fld label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.note{font-size:13.5px;color:var(--muted)}
+.hidden{display:none}
+@media (max-width:640px){.two{grid-template-columns:1fr}.wrap{padding:12px 12px 50px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<!-- bank soal -->
+<script src="data/paket1.js"></script>
+<script src="data/paket2.js"></script>
+<script src="data/paket3.js"></script>
+<script src="data/paket4.js"></script>
+<script src="data/paket5.js"></script>
+
+<script>
+/* =========================================================
+   Latihan MAPSI XXVII — PAI & BTQ SD
+   Format soal pilihan ganda (array):
+     [pertanyaan, A, B, C, D, indeksKunci(0-3), hint, pembahasan, lingkup]
+   Format soal menjodohkan (objek):
+     {q:teks, pasang:[[kiri,kanan],...], h:hint, e:pembahasan, s:lingkup}
+   ========================================================= */
+const LS_EDIT = "mapsi27_bank_edit";
+const LS_HASIL = "mapsi27_hasil";
+const LS_ADMIN = "mapsi27_admin_pass";
+const PASS_DEFAULT = "mapsi2026";
+const IDS = ["p1","p2","p3","p4","p5"];
+
+let bank = {};      // data aktif (bawaan + hasil edit admin)
+let view = {name:"home"};
+let sesi = null;
+
+function deepCopy(o){ return JSON.parse(JSON.stringify(o)); }
+
+function muatBank(){
+  const dasar = {};
+  IDS.forEach(id => { if(window.BANK && window.BANK[id]) dasar[id] = deepCopy(window.BANK[id]); });
+  let edit = {};
+  try{ edit = JSON.parse(localStorage.getItem(LS_EDIT) || "{}"); }catch(e){ edit = {}; }
+  IDS.forEach(id => { if(edit[id]) dasar[id] = edit[id]; });
+  bank = dasar;
+}
+function simpanEdit(){
+  try{ localStorage.setItem(LS_EDIT, JSON.stringify(bank)); }
+  catch(e){ alert("Penyimpanan browser penuh. Ekspor dulu paket yang sudah diubah."); }
+}
+function ambilHasil(){ try{ return JSON.parse(localStorage.getItem(LS_HASIL)||"{}"); }catch(e){ return {}; } }
+function simpanHasil(id,h){ const a=ambilHasil(); a[id]=h; try{localStorage.setItem(LS_HASIL,JSON.stringify(a));}catch(e){} }
+function passAdmin(){ return localStorage.getItem(LS_ADMIN) || PASS_DEFAULT; }
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function jumlahSoal(p){ return (p.pg?p.pg.length:0) + (p.jodoh?p.jodoh.length:0); }
+
+/* daftar soal gabungan: PG dulu, lalu menjodohkan */
+function daftarSoal(p){
+  const out = [];
+  (p.pg||[]).forEach((q,i)=>out.push({tipe:"pg", data:q, idx:i}));
+  (p.jodoh||[]).forEach((q,i)=>out.push({tipe:"jodoh", data:q, idx:i}));
+  return out;
+}
+
+/* ================= tampilan ================= */
+function render(){
+  const el = document.getElementById("app");
+  if(view.name==="home") el.innerHTML = htmlHome();
+  else if(view.name==="kuis") el.innerHTML = htmlKuis();
+  else if(view.name==="hasil") el.innerHTML = htmlHasil();
+  else if(view.name==="admin") el.innerHTML = htmlAdmin();
+  window.scrollTo({top:view.name==="kuis"?window.scrollY:0});
+}
+
+function masthead(sub){
+  return `<header class="masthead">
+    <svg class="kufic" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+      <g fill="none" stroke="#fff" stroke-width="2">
+        <path d="M20 100 20 40 50 40 50 70 80 70 80 40 110 40 110 100"/>
+        <path d="M140 100 140 40 200 40 200 100 170 100 170 70"/>
+        <path d="M230 100 230 40 260 40 260 100 290 100 290 40 320 40 320 100"/>
+        <circle cx="360" cy="60" r="22"/><circle cx="360" cy="60" r="10"/>
+      </g></svg>
+    <h1>Latihan Lomba MAPSI XXVII</h1>
+    <p>${sub}</p>
+  </header>`;
+}
+
+function htmlHome(){
+  const hasil = ambilHasil();
+  const kartu = IDS.map(id=>{
+    const p = bank[id]; if(!p) return "";
+    const h = hasil[id];
+    return `<div class="paket-card">
+      <h3>${esc(p.nama)}</h3>
+      <p class="meta">${(p.pg||[]).length} pilihan ganda &middot; ${(p.jodoh||[]).length} menjodohkan</p>
+      ${h?`<p class="done">Nilai terakhir: ${h.nilai}</p>`:""}
+      <button class="btn small" onclick="mulai('${id}')">${h?"Kerjakan lagi":"Mulai mengerjakan"}</button>
+      ${h?`<button class="btn ghost small" onclick="bukaHasil('${id}')" style="margin-top:6px">Lihat pembahasan</button>`:""}
+    </div>`;
+  }).join("");
+
+  return masthead("Bank soal PAI dan BTQ tingkat SD, disusun mengikuti ruang lingkup materi pada Lampiran 1 Juknis MAPSI XXVII Kabupaten Batang Tahun 2026.")
+  + `<div class="grid-pakets">${kartu}</div>
+  <div class="panel">
+    <p class="section-title">Cara kerja latihan ini</p>
+    <p style="margin:0 0 10px">Setiap paket berisi 100 soal. Pada tiap soal tersedia petunjuk yang boleh kamu buka bila kesulitan. Petunjuk yang dibuka akan ditandai saat pembahasan, supaya kamu tahu bagian mana yang masih perlu dipelajari lagi.</p>
+    <p class="note" style="margin:0">Jawaban tersimpan di perangkat ini saja. Menutup tab di tengah pengerjaan akan menghapus jawaban yang belum dikirim.</p>
+  </div>
+  <div class="panel">
+    <p class="section-title">Guru dan panitia</p>
+    <button class="btn ghost small" onclick="view={name:'admin'};render()">Kelola bank soal</button>
+  </div>`;
+}
+
+/* ================= kuis ================= */
+function mulai(id){
+  const p = bank[id];
+  sesi = { id, soal: daftarSoal(p), jawab:{}, hint:{}, n:0, mulai:Date.now() };
+  view = {name:"kuis"};
+  render();
+}
+function pilihPG(k){ sesi.jawab[sesi.n] = k; render(); }
+function pilihJodoh(i, val){
+  const cur = sesi.jawab[sesi.n] || {};
+  cur[i] = val; sesi.jawab[sesi.n] = cur; render();
+}
+function bukaHint(){ sesi.hint[sesi.n] = true; render(); }
+function keSoal(i){ sesi.n = Math.max(0, Math.min(sesi.soal.length-1, i)); render(); }
+
+function htmlKuis(){
+  const s = sesi.soal[sesi.n];
+  const terisi = Object.keys(sesi.jawab).filter(k=>{
+    const v = sesi.jawab[k];
+    return typeof v === "number" || (v && Object.keys(v).length);
+  }).length;
+  const pct = Math.round(terisi/sesi.soal.length*100);
+
+  let isi = "";
+  if(s.tipe==="pg"){
+    const [q,a,b,c,d,kunci,hint,pemb,scope] = s.data;
+    const opsi = [a,b,c,d].map((t,i)=>`
+      <button class="opt ${sesi.jawab[sesi.n]===i?"sel":""}" onclick="pilihPG(${i})">
+        <span class="k">${"ABCD"[i]}</span><span>${esc(t)}</span></button>`).join("");
+    isi = `<div class="qhead"><span class="qnum">${sesi.n+1}</span><span class="qscope">${esc(scope||"")}</span></div>
+      <p class="qtext">${esc(q)}</p>${opsi}
+      ${sesi.hint[sesi.n]
+        ? `<div class="hintbox"><b>Petunjuk:</b> ${esc(hint)}</div>`
+        : `<button class="btn ghost small" onclick="bukaHint()">Buka petunjuk</button>`}`;
+  } else {
+    const o = s.data;
+    const kanan = o.pasang.map(p=>p[1]);
+    const acak = kanan.slice().sort((x,y)=>x.localeCompare(y,"id"));
+    const cur = sesi.jawab[sesi.n] || {};
+    const baris = o.pasang.map((p,i)=>`
+      <div class="match-row"><div class="l">${esc(p[0])}</div>
+        <select onchange="pilihJodoh(${i}, this.value)">
+          <option value="">— pilih pasangan —</option>
+          ${acak.map(k=>`<option value="${esc(k)}" ${cur[i]===k?"selected":""}>${esc(k)}</option>`).join("")}
+        </select></div>`).join("");
+    isi = `<div class="qhead"><span class="qnum">${sesi.n+1}</span><span class="qscope">Menjodohkan &middot; ${esc(o.s||"")}</span></div>
+      <p class="qtext">${esc(o.q)}</p>${baris}
+      ${sesi.hint[sesi.n]
+        ? `<div class="hintbox"><b>Petunjuk:</b> ${esc(o.h)}</div>`
+        : `<button class="btn ghost small" onclick="bukaHint()">Buka petunjuk</button>`}`;
+  }
+
+  const nav = sesi.soal.map((_,i)=>{
+    const v = sesi.jawab[i];
+    const ada = typeof v==="number" || (v && Object.keys(v).length);
+    return `<button class="${ada?"filled":""} ${i===sesi.n?"now":""}" onclick="keSoal(${i})">${i+1}</button>`;
+  }).join("");
+
+  return `<div class="exambar">
+      <span class="pill">${esc(bank[sesi.id].nama)}</span>
+      <div class="progress"><i style="width:${pct}%"></i></div>
+      <span class="pill">${terisi}/${sesi.soal.length} terisi</span>
+    </div>
+    <div class="panel">${isi}
+      <div class="rowbtn">
+        <button class="btn ghost" onclick="keSoal(${sesi.n-1})" ${sesi.n===0?"disabled":""}>Sebelumnya</button>
+        <button class="btn" onclick="keSoal(${sesi.n+1})" ${sesi.n===sesi.soal.length-1?"disabled":""}>Berikutnya</button>
+        <button class="btn warn" onclick="kirim()">Kumpulkan jawaban</button>
+        <button class="btn ghost" onclick="if(confirm('Keluar dan hapus jawaban yang belum dikumpulkan?')){view={name:'home'};render()}">Keluar</button>
+      </div>
+    </div>
+    <div class="panel"><p class="section-title">Daftar soal</p><div class="navgrid">${nav}</div></div>`;
+}
+
+function kirim(){
+  const kosong = sesi.soal.length - Object.keys(sesi.jawab).filter(k=>{
+    const v=sesi.jawab[k]; return typeof v==="number"||(v&&Object.keys(v).length);
+  }).length;
+  if(kosong>0 && !confirm(`Masih ada ${kosong} soal yang belum dijawab. Kumpulkan sekarang?`)) return;
+
+  let benar=0, salah=0, pakaiHint=0;
+  const detail = sesi.soal.map((s,i)=>{
+    const dipakaiHint = !!sesi.hint[i];
+    if(dipakaiHint) pakaiHint++;
+    if(s.tipe==="pg"){
+      const jw = sesi.jawab[i];
+      const ok = jw === s.data[5];
+      ok?benar++:salah++;
+      return {tipe:"pg", i, jw:(jw==null?null:jw), ok, hint:dipakaiHint};
+    } else {
+      const cur = sesi.jawab[i] || {};
+      const cocok = s.data.pasang.map((p,k)=> cur[k]===p[1]);
+      const ok = cocok.every(Boolean);
+      ok?benar++:salah++;
+      return {tipe:"jodoh", i, jw:cur, cocok, ok, hint:dipakaiHint};
+    }
+  });
+  const nilai = Math.round(benar/sesi.soal.length*100);
+  const hasil = {paket:sesi.id, nilai, benar, salah, pakaiHint, detail,
+    durasi: Math.round((Date.now()-sesi.mulai)/1000), tanggal:new Date().toISOString()};
+  simpanHasil(sesi.id, hasil);
+  view = {name:"hasil", hasil};
+  render();
+}
+function bukaHasil(id){
+  const h = ambilHasil()[id];
+  if(!h) return;
+  sesi = { id, soal: daftarSoal(bank[id]) };
+  view = {name:"hasil", hasil:h};
+  render();
+}
+
+function htmlHasil(){
+  const h = view.hasil;
+  const soal = sesi.soal;
+  const menit = Math.floor(h.durasi/60), detik = h.durasi%60;
+
+  const rev = h.detail.map(d=>{
+    const s = soal[d.i];
+    const badgeHint = d.hint?`<span class="badge hint">petunjuk dibuka</span>`:"";
+    const badgeOk = d.ok?`<span class="badge benar">benar</span>`:`<span class="badge salah">salah</span>`;
+    if(s.tipe==="pg"){
+      const [q,a,b,c,dd,kunci,hint,pemb,scope] = s.data;
+      const opsi = [a,b,c,dd].map((t,i)=>{
+        let cls = "";
+        if(i===kunci) cls="ok"; else if(i===d.jw) cls="no";
+        return `<div class="opt ${cls}"><span class="k">${"ABCD"[i]}</span><span>${esc(t)}</span></div>`;
+      }).join("");
+      return `<div class="rev">
+        <div class="qhead"><span class="qnum">${d.i+1}</span><span class="qscope">${esc(scope||"")}</span></div>
+        <p class="qtext">${esc(q)} ${badgeOk}${badgeHint}</p>${opsi}
+        ${d.jw==null?`<p class="note">Tidak dijawab.</p>`:""}
+        <div class="expl"><b>Pembahasan.</b> ${esc(pemb)}</div>
+        ${d.hint?`<div class="expl" style="background:var(--saffron-soft)"><b>Petunjuk yang kamu buka.</b> ${esc(hint)}</div>`:""}
+      </div>`;
+    } else {
+      const o = s.data;
+      const baris = o.pasang.map((p,k)=>{
+        const jw = d.jw[k];
+        const ok = d.cocok[k];
+        return `<div class="opt ${ok?"ok":"no"}"><span class="k">${ok?"\u2713":"\u2717"}</span>
+          <span><b>${esc(p[0])}</b><br>Jawabanmu: ${esc(jw||"kosong")}${ok?"":` &rarr; seharusnya <b>${esc(p[1])}</b>`}</span></div>`;
+      }).join("");
+      return `<div class="rev">
+        <div class="qhead"><span class="qnum">${d.i+1}</span><span class="qscope">Menjodohkan &middot; ${esc(o.s||"")}</span></div>
+        <p class="qtext">${esc(o.q)} ${badgeOk}${badgeHint}</p>${baris}
+        <div class="expl"><b>Pembahasan.</b> ${esc(o.e)}</div>
+        ${d.hint?`<div class="expl" style="background:var(--saffron-soft)"><b>Petunjuk yang kamu buka.</b> ${esc(o.h)}</div>`:""}
+      </div>`;
+    }
+  }).join("");
+
+  return masthead("Hasil pengerjaan " + esc(bank[h.paket].nama))
+  + `<div class="panel"><div class="score">
+      <div><div class="big">${h.nilai}</div><div class="note">nilai dari 100</div></div>
+      <div class="tally">
+        <span>${h.benar} benar</span><span>${h.salah} salah</span>
+        <span>${h.pakaiHint} soal pakai petunjuk</span>
+        <span>${menit} menit ${detik} detik</span>
+      </div></div>
+      <div class="rowbtn">
+        <button class="btn" onclick="view={name:'home'};render()">Kembali ke daftar paket</button>
+        <button class="btn ghost" onclick="mulai('${h.paket}')">Kerjakan ulang paket ini</button>
+      </div>
+    </div>
+    <div class="panel"><p class="section-title">Pembahasan seluruh soal</p>${rev}</div>`;
+}
+
+/* ================= admin ================= */
+let adm = {masuk:false, paket:"p1", edit:null};
+
+function htmlAdmin(){
+  if(!adm.masuk){
+    return masthead("Ruang guru dan panitia")
+    + `<div class="panel" style="max-width:420px">
+      <p class="section-title">Masuk</p>
+      <div class="fld"><label for="pw">Kata sandi</label><input type="password" id="pw" placeholder="Kata sandi admin"></div>
+      <button class="btn" onclick="cekPass()">Masuk</button>
+      <button class="btn ghost" onclick="view={name:'home'};render()">Batal</button>
+      <p class="note" style="margin-top:12px">Kata sandi bawaan <b>mapsi2026</b>. Ganti setelah masuk. Kata sandi ini hanya menghalangi orang awam, bukan pengaman sungguhan — siapa pun yang membuka kode sumber halaman bisa membacanya.</p>
+    </div>`;
+  }
+  const p = bank[adm.paket];
+  const daftar = daftarSoal(p);
+
+  if(adm.edit !== null){ return htmlFormSoal(); }
+
+  const baris = daftar.map((s,i)=>{
+    const teks = s.tipe==="pg" ? s.data[0] : s.data.q;
+    const lingkup = s.tipe==="pg" ? (s.data[8]||"") : (s.data.s||"");
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${esc(teks).slice(0,90)}${teks.length>90?"…":""}</td>
+      <td>${s.tipe==="pg"?"Pilihan ganda":"Menjodohkan"}</td>
+      <td>${esc(lingkup)}</td>
+      <td style="white-space:nowrap">
+        <button class="btn ghost small" onclick="editSoal('${s.tipe}',${s.idx})">Ubah</button>
+        <button class="btn ghost small" onclick="hapusSoal('${s.tipe}',${s.idx})">Hapus</button>
+      </td></tr>`;
+  }).join("");
+
+  return masthead("Ruang guru dan panitia")
+  + `<div class="panel">
+      <p class="section-title">Pilih paket</p>
+      <div class="rowbtn" style="margin-top:0">
+        ${IDS.map(id=>`<button class="btn ${adm.paket===id?"":"ghost"} small" onclick="adm.paket='${id}';render()">${esc(bank[id].nama)}</button>`).join("")}
+      </div>
+      <div class="fld" style="margin-top:14px"><label for="namapaket">Nama paket</label>
+        <input type="text" id="namapaket" value="${esc(p.nama)}" onchange="bank['${adm.paket}'].nama=this.value;simpanEdit();render()"></div>
+      <div class="rowbtn">
+        <button class="btn" onclick="tambahSoal('pg')">Tambah soal pilihan ganda</button>
+        <button class="btn" onclick="tambahSoal('jodoh')">Tambah soal menjodohkan</button>
+        <button class="btn warn" onclick="ekspor()">Unduh berkas paket ini</button>
+        <button class="btn ghost" onclick="imporKlik()">Muat berkas JSON</button>
+        <button class="btn ghost" onclick="resetPaket()">Kembalikan ke soal bawaan</button>
+        <button class="btn ghost" onclick="gantiPass()">Ganti kata sandi</button>
+        <button class="btn ghost" onclick="adm.masuk=false;view={name:'home'};render()">Keluar</button>
+      </div>
+      <input type="file" id="fileimp" accept=".json,.js" class="hidden" onchange="imporFile(event)">
+      <p class="note" style="margin-top:10px">Perubahan tersimpan di browser ini saja. Agar soal baru ikut tayang di situs GitHub, unduh berkas paket lalu ganti berkas <code>data/paket…js</code> di repositori.</p>
+    </div>
+    <div class="panel">
+      <p class="section-title">${daftar.length} soal dalam paket ini</p>
+      <table><thead><tr><th>No</th><th>Soal</th><th>Tipe</th><th>Lingkup</th><th></th></tr></thead>
+      <tbody>${baris}</tbody></table>
+    </div>`;
+}
+
+function cekPass(){
+  if(document.getElementById("pw").value === passAdmin()){ adm.masuk=true; render(); }
+  else alert("Kata sandi belum cocok. Coba lagi.");
+}
+function gantiPass(){
+  const b = prompt("Kata sandi baru (minimal 6 karakter):");
+  if(b && b.length>=6){ localStorage.setItem(LS_ADMIN,b); alert("Kata sandi diganti."); }
+  else if(b!==null) alert("Kata sandi terlalu pendek.");
+}
+function tambahSoal(tipe){
+  const p = bank[adm.paket];
+  if(tipe==="pg"){ p.pg.push(["Pertanyaan baru","Pilihan A","Pilihan B","Pilihan C","Pilihan D",0,"Petunjuk","Pembahasan","Fiqih"]);
+    adm.edit={tipe:"pg", idx:p.pg.length-1}; }
+  else { p.jodoh.push({q:"Jodohkan pernyataan berikut.",pasang:[["Kiri 1","Kanan 1"],["Kiri 2","Kanan 2"],["Kiri 3","Kanan 3"],["Kiri 4","Kanan 4"]],h:"Petunjuk",e:"Pembahasan",s:"Fiqih"});
+    adm.edit={tipe:"jodoh", idx:p.jodoh.length-1}; }
+  simpanEdit(); render();
+}
+function editSoal(tipe,idx){ adm.edit={tipe,idx}; render(); }
+function hapusSoal(tipe,idx){
+  if(!confirm("Hapus soal ini?")) return;
+  const p = bank[adm.paket];
+  (tipe==="pg"?p.pg:p.jodoh).splice(idx,1);
+  simpanEdit(); render();
+}
+function htmlFormSoal(){
+  const p = bank[adm.paket];
+  const {tipe,idx} = adm.edit;
+  const lingkupOpsi = ["Al-Qur'an Hadis","Akidah","Akhlak","Fiqih","Sejarah Peradaban Islam","BTQ"];
+  if(tipe==="pg"){
+    const q = p.pg[idx];
+    return masthead("Ubah soal pilihan ganda")
+    + `<div class="panel">
+      <div class="fld"><label>Pertanyaan</label><textarea id="f_q">${esc(q[0])}</textarea></div>
+      <div class="two">
+        <div class="fld"><label>Pilihan A</label><input type="text" id="f_a" value="${esc(q[1])}"></div>
+        <div class="fld"><label>Pilihan B</label><input type="text" id="f_b" value="${esc(q[2])}"></div>
+        <div class="fld"><label>Pilihan C</label><input type="text" id="f_c" value="${esc(q[3])}"></div>
+        <div class="fld"><label>Pilihan D</label><input type="text" id="f_d" value="${esc(q[4])}"></div>
+      </div>
+      <div class="two">
+        <div class="fld"><label>Kunci jawaban</label><select class="adm" id="f_k">
+          ${["A","B","C","D"].map((h,i)=>`<option value="${i}" ${q[5]===i?"selected":""}>${h}</option>`).join("")}
+        </select></div>
+        <div class="fld"><label>Ruang lingkup</label><select class="adm" id="f_s">
+          ${lingkupOpsi.map(l=>`<option ${q[8]===l?"selected":""}>${l}</option>`).join("")}
+        </select></div>
+      </div>
+      <div class="fld"><label>Petunjuk</label><textarea id="f_h">${esc(q[6])}</textarea></div>
+      <div class="fld"><label>Pembahasan</label><textarea id="f_e">${esc(q[7])}</textarea></div>
+      <div class="rowbtn"><button class="btn" onclick="simpanForm()">Simpan soal</button>
+      <button class="btn ghost" onclick="adm.edit=null;render()">Batal</button></div>
+    </div>`;
+  }
+  const o = p.jodoh[idx];
+  return masthead("Ubah soal menjodohkan")
+  + `<div class="panel">
+    <div class="fld"><label>Perintah soal</label><textarea id="f_q">${esc(o.q)}</textarea></div>
+    ${o.pasang.map((pp,i)=>`<div class="two">
+      <div class="fld"><label>Pernyataan ${i+1}</label><input type="text" id="f_l${i}" value="${esc(pp[0])}"></div>
+      <div class="fld"><label>Pasangan ${i+1}</label><input type="text" id="f_r${i}" value="${esc(pp[1])}"></div>
+    </div>`).join("")}
+    <div class="fld"><label>Ruang lingkup</label><select class="adm" id="f_s">
+      ${lingkupOpsi.map(l=>`<option ${o.s===l?"selected":""}>${l}</option>`).join("")}</select></div>
+    <div class="fld"><label>Petunjuk</label><textarea id="f_h">${esc(o.h)}</textarea></div>
+    <div class="fld"><label>Pembahasan</label><textarea id="f_e">${esc(o.e)}</textarea></div>
+    <div class="rowbtn"><button class="btn" onclick="simpanForm()">Simpan soal</button>
+    <button class="btn ghost" onclick="adm.edit=null;render()">Batal</button></div>
+  </div>`;
+}
+function val(id){ const e=document.getElementById(id); return e?e.value:""; }
+function simpanForm(){
+  const p = bank[adm.paket]; const {tipe,idx} = adm.edit;
+  if(tipe==="pg"){
+    p.pg[idx] = [val("f_q"),val("f_a"),val("f_b"),val("f_c"),val("f_d"),
+                 parseInt(val("f_k"),10),val("f_h"),val("f_e"),val("f_s")];
+  } else {
+    const o = p.jodoh[idx];
+    o.q = val("f_q"); o.h = val("f_h"); o.e = val("f_e"); o.s = val("f_s");
+    o.pasang = o.pasang.map((_,i)=>[val("f_l"+i), val("f_r"+i)]);
+  }
+  simpanEdit(); adm.edit=null; render();
+}
+function ekspor(){
+  const id = adm.paket;
+  const teks = "window.BANK = window.BANK || {};\nwindow.BANK." + id + " = " +
+    JSON.stringify(bank[id], null, 1) + ";\n";
+  const blob = new Blob([teks], {type:"text/javascript"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = id.replace("p","paket") + ".js";
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function imporKlik(){ document.getElementById("fileimp").click(); }
+function imporFile(ev){
+  const f = ev.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      let t = r.result.trim();
+      const m = t.match(/=\s*(\{[\s\S]*\})\s*;?\s*$/);
+      if(m) t = m[1];
+      const obj = JSON.parse(t);
+      if(!obj.pg || !obj.jodoh) throw new Error("struktur");
+      bank[adm.paket] = obj; simpanEdit(); render();
+      alert("Paket dimuat: " + (obj.nama||adm.paket));
+    }catch(e){ alert("Berkas tidak terbaca. Gunakan berkas hasil unduhan dari halaman ini."); }
+  };
+  r.readAsText(f);
+  ev.target.value = "";
+}
+function resetPaket(){
+  if(!confirm("Semua perubahan pada paket ini akan hilang. Lanjutkan?")) return;
+  bank[adm.paket] = deepCopy(window.BANK[adm.paket]);
+  simpanEdit(); render();
+}
+
+/* ================= start ================= */
+muatBank();
+const kurang = IDS.filter(id=>!bank[id]);
+if(kurang.length){
+  document.getElementById("app").innerHTML =
+    `<div class="panel"><h2>Bank soal belum termuat</h2>
+     <p>Berkas ${kurang.map(k=>"data/"+k.replace("p","paket")+".js").join(", ")} tidak ditemukan. Pastikan folder <code>data</code> ikut diunggah ke repositori.</p></div>`;
+} else render();
+</script>
+</body>
+</html>
